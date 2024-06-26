@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class User(AbstractUser):
-    username = None
+    username = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     avatar = models.ImageField(upload_to='avatars/', default='avatars/default.jpg', verbose_name='аватар')
     telegram = models.CharField(max_length=150, verbose_name='телеграм', null=True, blank=True)

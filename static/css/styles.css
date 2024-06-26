@@ -2,3 +2,9 @@
     width: 200px;
     height: auto;
 }
+
+.logo-size {
+    width: 10px;
+    height: auto;
+    border: 2px solid red;
+}
