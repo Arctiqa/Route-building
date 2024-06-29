@@ -1,0 +1,32 @@
+{% extends 'stations/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-6">
+        <h1>Задать маршрут</h1>
+        <form action="/create-route/" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="start_point">Откуда:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="start_point" name="from_location" placeholder="Начальная точка"
+                           required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="end_point">Куда:</label>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="end_point" name="to_location" placeholder="Конечная точка"
+                           required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Создать маршрут</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

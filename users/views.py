@@ -15,16 +15,9 @@ from config import settings
 
 
 class RegisterView(CreateView):
-    form_class = UserRegisterForm  # Форма для регистрации пользователей
-    template_name = 'users/register.html'  # Шаблон для отображения формы регистрации
-    success_url = reverse_lazy('login')  # После успешной регистрации перенаправляем на страницу входа
-
-    # def form_valid(self, form):
-    #     response = super().form_valid(form)
-    #     # Дополнительные действия после успешной регистрации
-    #     # Например, отправка подтверждающего письма или создание профиля
-    #     # (для этого можно использовать сигналы django-allauth)
-    #     return response
+    form_class = UserRegisterForm
+    template_name = 'users/register.html'
+    success_url = reverse_lazy('login')
 
     def form_valid(self, form):
         user = form.save()
