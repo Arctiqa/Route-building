@@ -6,8 +6,7 @@ import xlrd
 
 
 class Command(BaseCommand):
-    """Команда заполняет таблицу stations_gasstation в БД информацией заправочных станций
-    из файла """
+    """Команда заполняет таблицу stations_gasstation в БД информацией заправочных станций из файла """
 
     def handle(self, *args, **options):
         workbook = xlrd.open_workbook('gas_stations.xls', ignore_workbook_corruption=True)
