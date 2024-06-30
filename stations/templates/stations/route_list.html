@@ -1,7 +1,33 @@
 {% extends 'stations/base.html' %}
 
 {% block content %}
+{% load static %}
 
-<a class="btn btn-outline-success" href="{% url 'users:login' %}">Задать маршрут</a>
+<div class="row">
+    {% for route in route_list %}
+    <div class="col-md-4">
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
+                <p class="card-text"><strong>Координаты отправления:</strong> {{ route.start_point }}</p>
+                <p class="card-text"><strong>Координаты прибытия:</strong> {{ route.end_point }}</p>
+                <p class="card-text"><strong>Дата создания:</strong> {{ route.date }}</p>
+                <a class="btn btn-success" href="{% url 'stations:route-detail' route.pk %}">Построить маршрут</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div id="map" style="height: 400px;"></div>
+
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
+<script src='{% static "js/map.js" %}'></script>
 
 {% endblock %}
