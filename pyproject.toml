@@ -23,6 +23,7 @@ folium = "^0.17.0"
 
 [tool.poetry.group.dev.dependencies]
 ipython = "^8.26.0"
+flake8 = "^7.1.0"
 
 [build-system]
 requires = ["poetry-core"]

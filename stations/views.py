@@ -76,4 +76,3 @@ def gas_stations(requests):
     stations = GasStation.objects.all().values('latitude', 'longitude', 'number')
     stations_list = list(stations)
     return JsonResponse(stations_list, safe=False)
-

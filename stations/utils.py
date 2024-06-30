@@ -2,7 +2,6 @@ import math
 import os
 
 import requests
-from django.http import JsonResponse
 from dotenv import load_dotenv
 from requests.exceptions import RequestException
 
@@ -32,9 +31,7 @@ def get_tomtom_api_build_route(route):
 
     vehicle_type = 'car'
 
-    if (route.weight >= 36 or route.weight is None
-            and route.height >= 4 or route.height is None
-            and route.axel_load >= 9 or route.axel_load is None):
+    if (route.weight >= 36 or route.weight is None and route.height >= 4 or route.height is None and route.axel_load >= 9 or route.axel_load is None):
         vehicle_type = 'truck'
 
     url = (f'https://api.tomtom.com/routing/1/calculateRoute/{start_point[0]},{start_point[1]}:'
@@ -52,8 +49,8 @@ def get_tomtom_api_build_route(route):
         route_data = response.json()
         points = route_data['routes'][0]['legs'][0]['points']
 
-        lengthInMeters = route_data['routes'][0]['summary']['lengthInMeters']
-        travelTimeInSeconds = route_data['routes'][0]['summary']['travelTimeInSeconds']
+        # lengthInMeters = route_data['routes'][0]['summary']['lengthInMeters']
+        # travelTimeInSeconds = route_data['routes'][0]['summary']['travelTimeInSeconds']
 
         if 'routes' in route_data and len(route_data['routes']) > 0:
             return points
@@ -84,7 +81,6 @@ def calculate_distance(lat1, lon1, lat2, lon2):
     distance = R * c
 
     return distance
-
 
 # def gas_stations_on_route(requests, pk):
 #     points = get_tomtom_api_build_route(requests, pk)

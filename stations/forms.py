@@ -1,5 +1,4 @@
 from django import forms
-from django.forms import ModelForm
 
 from stations.models import Route
 
@@ -16,4 +15,3 @@ class RouteForm(MixinFormControl, forms.ModelForm):
     class Meta:
         model = Route
         fields = ('start_point', 'end_point', 'height', 'weight', 'axel_load')
-
