@@ -9,10 +9,9 @@ class Route(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='пользователь')
     start_point = models.CharField(max_length=255, verbose_name='координаты отправки')
     end_point = models.CharField(max_length=255, verbose_name='координаты прибытия')
-    length = models.IntegerField(verbose_name='длина авто(метры)')
-    height = models.FloatField(verbose_name='высота от земли(метры)')
-    weight = models.FloatField(verbose_name='вес авто(тонны)')
-    axle_load = models.FloatField(verbose_name='нагрузка на ось(тонны)')
+    height = models.FloatField(verbose_name='высота от земли(метры)', null=True, blank=True)
+    weight = models.FloatField(verbose_name='вес авто(тонны)', null=True, blank=True)
+    axel_load = models.FloatField(verbose_name='нагрузка на ось(тонны)', null=True, blank=True)
     date = models.DateTimeField(default=timezone.now, verbose_name='дата создания')
 
     class Meta:
