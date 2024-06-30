@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from stations.models import Route, GasStation
+
+admin.site.register(Route)
+admin.site.register(GasStation)
