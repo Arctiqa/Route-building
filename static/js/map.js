@@ -1,15 +1,14 @@
-var gasStations = [
-    { name: "АЗС 1", coordinates: [55.7558, 37.6176] },
-    { name: "АЗС 2", coordinates: [59.9343, 30.3351] },
-];
+var mymap = L.map('map').setView([{{ start_point.latitude }}, {{ start_point.longitude }}], 15);
 
-var map = L.map('map').setView([55.7558, 37.6176], 6);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(mymap);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
+    var points = {{ points | safe }};
 
-gasStations.forEach(station => {
-    L.marker(station.coordinates).addTo(map)
-        .bindPopup(station.name);
-});
+    var latlngs = points.map(function(point) {
+        return L.latLng(point.latitude, point.longitude);
+    });
+
+    var polyline = L.polyline(latlngs, {color: 'red'}).addTo(mymap);
