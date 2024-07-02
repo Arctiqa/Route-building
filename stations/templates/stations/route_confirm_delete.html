@@ -1,0 +1,23 @@
+{% extends 'stations/base.html' %}
+
+{% block content %}
+
+
+<div class="col-12">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <p>Удалить маршрут?</p>
+                        <button type="submit" class="btn btn-success">Подтвердить</button>
+                        <a href="{% url 'stations:route-list' %}" class="btn btn-warning">Отмена</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

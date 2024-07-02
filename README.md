@@ -2,7 +2,6 @@
 
 Это приложение разработано для построения маршрутов движения автопоездов с использованием различных API и поиска ближайших АЗС вдоль маршрута.
 
-API
 Приложение использует следующие API:
 
 Open Elevation API
@@ -57,8 +56,7 @@ TOMTOM_API=
 
 >>>python manage.py csu
 
-Получите данные о координатах АЗС с сайта https://rss.tatneft.ru/outer/azs/get_xml_list?region_id=0&fuel_type_id=0 командой
-("gas_stations.xls")
+Получите данные о координатах АЗС с сайта https://rss.tatneft.ru/outer/azs/get_xml_list?region_id=0&fuel_type_id=0 (сохранится в "gas_stations.xls") командой
 
 >>>python manage.py upload_table
 

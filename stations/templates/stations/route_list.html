@@ -8,10 +8,15 @@
     <div class="col-md-4">
         <div class="card mb-4 box-shadow">
             <div class="card-body">
+                {% if route.name %}
+                <h5>{{ route.name }}</h5>
+                {% endif %}
                 <p class="card-text"><strong>Координаты отправления:</strong> {{ route.start_point }}</p>
                 <p class="card-text"><strong>Координаты прибытия:</strong> {{ route.end_point }}</p>
                 <p class="card-text"><strong>Дата создания:</strong> {{ route.date }}</p>
                 <a class="btn btn-success" href="{% url 'stations:route-detail' route.pk %}">Построить маршрут</a>
+                <a href="{% url 'stations:route-update' route.pk %}">Редактировать</a>
+                <a href="{% url 'stations:route-delete' route.pk %}">Удалить</a>
             </div>
         </div>
     </div>

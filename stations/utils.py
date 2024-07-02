@@ -9,6 +9,7 @@ load_dotenv()
 
 
 def get_open_elevation_elevation(latitude, longitude):
+    """Получение данных о расстоянии над уровнем моря по координатам"""
     url = f'https://api.open-elevation.com/api/v1/lookup?locations={latitude},{longitude}'
     response = requests.get(url)
     data = response.json()
@@ -17,6 +18,7 @@ def get_open_elevation_elevation(latitude, longitude):
 
 
 def get_weatherapi_temperature(latitude, longitude):
+    """Получение данных о температуре по координатам"""
     API_KEY = os.getenv('WEATHERAPI_API')
     url = f'https://api.weatherapi.com/v1/current.json?key={API_KEY}&q={latitude},{longitude}'
     response = requests.get(url)
@@ -26,12 +28,14 @@ def get_weatherapi_temperature(latitude, longitude):
 
 
 def get_tomtom_api_build_route(route):
+    """Получения маршрута по координатам модели Route"""
     start_point = route.start_point.split()
     end_point = route.end_point.split()
 
     vehicle_type = 'car'
 
-    if (route.weight >= 36 or route.weight is None and route.height >= 4 or route.height is None and route.axel_load >= 9 or route.axel_load is None):
+    if (route.weight is None or route.weight >= 36 and route.height is None or
+            route.height >= 4 and route.axel_load is None or route.axel_load >= 9):
         vehicle_type = 'truck'
 
     url = (f'https://api.tomtom.com/routing/1/calculateRoute/{start_point[0]},{start_point[1]}:'
@@ -40,7 +44,7 @@ def get_tomtom_api_build_route(route):
     params = {
         'key': os.getenv('TOMTOM_API'),
         'travelMode': vehicle_type,
-        'routeType': 'fastest'
+        # 'routeType': 'fastest'
     }
 
     try:
@@ -49,11 +53,11 @@ def get_tomtom_api_build_route(route):
         route_data = response.json()
         points = route_data['routes'][0]['legs'][0]['points']
 
-        # lengthInMeters = route_data['routes'][0]['summary']['lengthInMeters']
-        # travelTimeInSeconds = route_data['routes'][0]['summary']['travelTimeInSeconds']
+        lengthInMeters = route_data['routes'][0]['summary']['lengthInMeters']
+        travelTimeInSeconds = route_data['routes'][0]['summary']['travelTimeInSeconds']
 
         if 'routes' in route_data and len(route_data['routes']) > 0:
-            return points
+            return [points, lengthInMeters, travelTimeInSeconds]
         else:
             return None
 
@@ -62,8 +66,10 @@ def get_tomtom_api_build_route(route):
         return None
 
 
-def calculate_distance(lat1, lon1, lat2, lon2):
+def get_nearest_stations(route_points, stations):
     R = 6371.0
+
+    stations = stations.objects.all().value('latitude', 'longitude')
 
     # Преобразование градусов в радианы
     lat1 = math.radians(lat1)
@@ -95,13 +101,13 @@ def calculate_distance(lat1, lon1, lat2, lon2):
 #             for point in points:
 #                 distance = calculate_distance(station.latitude, station.longitude, point['latitude'],
 #                                               point['longitude'])
-#                 if distance < 1000:  # Пример: проверяем радиус 1 км вокруг точки маршрута
+#                 if distance < 1000:
 #                     stations_near_route.append({
 #                         'latitude': station.latitude,
 #                         'longitude': station.longitude,
 #                         'number': station.number
 #                     })
-#                     break  # Необходимо, чтобы добавить каждую станцию только один раз
+#                     break
 #
 #         return JsonResponse(stations_near_route, safe=False)
 #     else:

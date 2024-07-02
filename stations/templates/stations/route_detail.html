@@ -3,8 +3,10 @@
 
 {% block content %}
 
-<div id="map" style="height: 1000px;"></div>
+<h1>Расстояние: {{ lengthInMeters }} км</h1>
+<h2>Приблизительное время пути {{ travelTimeInSeconds }} ч</h2>
 
+<div id="map" style="height: 1000px;"></div>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
@@ -18,7 +20,6 @@
     var mymap = L.map('map').setView([{{ start_point.latitude }}, {{ start_point.longitude }}], 15);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(mymap);
 
@@ -30,7 +31,21 @@
 
     var polyline = L.polyline(latlngs, {color: 'red'}).addTo(mymap);
 
-</script>
+    var stations = {{ stations | safe }};
 
+    stations.forEach(function(station) {
+        console.log(station); // Выводите станцию в консоль, чтобы увидеть её содержимое
+        var marker = L.marker([station.latitude, station.longitude]).addTo(mymap);
+
+        var popupContent = '<b>Станция ' + station.number + '</b><br>' +
+                           'Услуги: ' + station.related_service + '<br>' +
+                           'Высота над уровнем моря: ' + station.elevation + '<br>' +
+                           'Дополнительные услуги: ' + station.additional_service + '<br>' +
+                           'Цена дизеля: ' + station.diesel_price + '<br>' +
+                           'Танеко дизель: ' + station.taneko_diesel_price;
+
+        marker.bindPopup(popupContent);
+    });
+</script>
 {% endblock %}
 

@@ -6,6 +6,7 @@ from config import settings
 
 
 class Route(models.Model):
+    name = models.CharField(max_length=200, null=True, blank=True, verbose_name='маршрут')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='пользователь')
     start_point = models.CharField(max_length=255, verbose_name='координаты отправки')
     end_point = models.CharField(max_length=255, verbose_name='координаты прибытия')

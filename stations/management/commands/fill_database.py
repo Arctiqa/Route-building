@@ -22,10 +22,11 @@ class Command(BaseCommand):
                     latitude=str(row['Координаты GPS (широта)']),
                     longitude=str(row['Координаты GPS (долгота)']),
                     related_service=(row['Объекты сопутствующего сервиса']) if not
-                    pd.isnull(row['Объекты сопутствующего сервиса']) else None,
-                    additional_service=row['Дополнительные услуги'],
-                    diesel_price=(row['ДТ']) if not pd.isnull(row['ДТ']) else None,
-                    taneko_diesel_price=(row['ДТ ТАНЕКО']) if not pd.isnull(row['ДТ ТАНЕКО']) else None,
+                    pd.isnull(row['Объекты сопутствующего сервиса']) else ' ',
+                    additional_service=(row['Дополнительные услуги']) if not
+                    pd.isnull(row['Дополнительные услуги']) else ' ',
+                    diesel_price=(row['ДТ']) if not pd.isnull(row['ДТ']) else ' ',
+                    taneko_diesel_price=(row['ДТ ТАНЕКО']) if not pd.isnull(row['ДТ ТАНЕКО']) else ' ',
                 )
                 gas_station.save()
 
@@ -36,9 +37,10 @@ class Command(BaseCommand):
                 gas_station.region = row['Регион'],
                 gas_station.number = row['Номер АЗС'],
                 gas_station.related_service = ((row['Объекты сопутствующего сервиса'])
-                                               if not pd.isnull(row['Объекты сопутствующего сервиса']) else None,)
-                gas_station.additional_service = row['Дополнительные услуги'],
-                gas_station.diesel_price = (row['ДТ']) if not pd.isnull(row['ДТ']) else None,
-                gas_station.taneko_diesel_price = (row['ДТ ТАНЕКО']) if not pd.isnull(row['ДТ ТАНЕКО']) else None,
+                                               if not pd.isnull(row['Объекты сопутствующего сервиса']) else ' ',)
+                gas_station.additional_service = ((row['Дополнительные услуги'])
+                                                  if not pd.isnull(row['Дополнительные услуги']) else ' ',)
+                gas_station.diesel_price = (row['ДТ']) if not pd.isnull(row['ДТ']) else ' ',
+                gas_station.taneko_diesel_price = (row['ДТ ТАНЕКО']) if not pd.isnull(row['ДТ ТАНЕКО']) else ' ',
 
                 gas_station.save()

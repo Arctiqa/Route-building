@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from stations.models import GasStation, Route, Refueling
+from stations.models import GasStation, Route
 
 
 class GasStationSerializer(serializers.ModelSerializer):
@@ -12,10 +12,4 @@ class GasStationSerializer(serializers.ModelSerializer):
 class RouteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Route
-        fields = '__all__'
-
-
-class RefuelingSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Refueling
         fields = '__all__'
