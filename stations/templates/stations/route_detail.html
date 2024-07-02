@@ -3,7 +3,10 @@
 
 {% block content %}
 
-<h1>Расстояние: {{ lengthInMeters }} км</h1>
+{% if route.name %}
+<h1>{{ route.name }}</h1>
+{% endif %}
+<h2>Расстояние: {{ lengthInMeters }} км</h2>
 <h2>Приблизительное время пути {{ travelTimeInSeconds }} ч</h2>
 
 <div id="map" style="height: 1000px;"></div>
