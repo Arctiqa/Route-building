@@ -35,12 +35,3 @@ class GasStation(models.Model):
     class Meta:
         verbose_name = 'АЗС'
         verbose_name_plural = 'АЗС'
-
-
-class Refueling(models.Model):
-    route = models.ForeignKey(Route, on_delete=models.CASCADE, verbose_name='Маршрут')
-    gas_station = models.ForeignKey(GasStation, on_delete=models.CASCADE, verbose_name='АЗС')
-
-    class Meta:
-        verbose_name = 'Заправка на маршруте'
-        verbose_name_plural = 'Заправки на маршрутах'
