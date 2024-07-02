@@ -27,7 +27,7 @@ def get_weatherapi_temperature(latitude, longitude):
 
 
 def get_tomtom_api_build_route(route):
-    """Получения маршрута по координатам модели Route"""
+    """Получение маршрута по координатам модели Route"""
     start_point = route.start_point.split()
     end_point = route.end_point.split()
 

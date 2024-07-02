@@ -37,7 +37,6 @@
     var stations = {{ stations | safe }};
 
     stations.forEach(function(station) {
-        console.log(station); // Выводите станцию в консоль, чтобы увидеть её содержимое
         var marker = L.marker([station.latitude, station.longitude]).addTo(mymap);
 
         var popupContent = '<b>Станция ' + station.number + '</b><br>' +
