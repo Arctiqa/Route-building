@@ -3,6 +3,7 @@ from django.core.management import BaseCommand
 import pandas as pd
 from stations.models import GasStation
 import xlrd
+from django.utils import timezone
 
 
 class Command(BaseCommand):
@@ -42,5 +43,5 @@ class Command(BaseCommand):
                                                   if not pd.isnull(row['Дополнительные услуги']) else ' ',)
                 gas_station.diesel_price = (row['ДТ']) if not pd.isnull(row['ДТ']) else ' ',
                 gas_station.taneko_diesel_price = (row['ДТ ТАНЕКО']) if not pd.isnull(row['ДТ ТАНЕКО']) else ' ',
-
+                gas_station.last_updated = timezone.now
                 gas_station.save()

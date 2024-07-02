@@ -30,6 +30,7 @@ class GasStation(models.Model):
     diesel_price = models.CharField(max_length=50, verbose_name='Цена ДТ', null=True, blank=True)
     taneko_diesel_price = models.CharField(max_length=50, verbose_name='Цена ДТ ТАНЕКО', null=True, blank=True)
     last_updated = models.DateTimeField(auto_now=True, verbose_name='Дата последнего обновления')
+    elevation = models.CharField(max_length=10, default=' ', verbose_name='высота над уровнем моря')
 
     class Meta:
         verbose_name = 'АЗС'

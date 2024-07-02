@@ -51,15 +51,12 @@ class RouteDetailView(DetailView):
         route = self.get_object()
 
         result = get_tomtom_api_build_route(route)
-        # elevation = get_open_elevation_elevation(route)
         # temperature = get_weatherapi_temperature(route)
 
         points = result[0]
         lengthInMeters = int(result[1] / 1000)
         travelTimeInSeconds = round(int(result[2]) / 3600, 1)
 
-
-        # Получение данных о станциях
         stations = GasStation.objects.all().values('latitude', 'longitude', 'number', 'related_service', 'additional_service', 'diesel_price', 'taneko_diesel_price', 'elevation')
 
         context['stations'] = list(stations)

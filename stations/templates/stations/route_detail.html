@@ -38,11 +38,11 @@
         var marker = L.marker([station.latitude, station.longitude]).addTo(mymap);
 
         var popupContent = '<b>Станция ' + station.number + '</b><br>' +
+                           'Высота над уровнем моря: ' + station.elevation + ' м<br>' +
                            'Услуги: ' + station.related_service + '<br>' +
-                           'Высота над уровнем моря: ' + station.elevation + '<br>' +
                            'Дополнительные услуги: ' + station.additional_service + '<br>' +
                            'Цена дизеля: ' + station.diesel_price + '<br>' +
-                           'Танеко дизель: ' + station.taneko_diesel_price;
+                           'Дизель "ТАНЕКО": ' + station.taneko_diesel_price;
 
         marker.bindPopup(popupContent);
     });
