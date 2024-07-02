@@ -1,4 +1,3 @@
-import math
 import os
 
 import requests
@@ -34,8 +33,8 @@ def get_tomtom_api_build_route(route):
 
     vehicle_type = 'car'
 
-    if (route.weight is None or route.weight >= 36 and route.height is None or
-            route.height >= 4 and route.axel_load is None or route.axel_load >= 9):
+    if (route.weight is None or route.weight >= 36 and route.height is
+            None or route.height >= 4 and route.axel_load is None or route.axel_load >= 9):
         vehicle_type = 'truck'
 
     url = (f'https://api.tomtom.com/routing/1/calculateRoute/{start_point[0]},{start_point[1]}:'

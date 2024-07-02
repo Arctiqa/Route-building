@@ -6,7 +6,7 @@ from rest_framework.generics import CreateAPIView, RetrieveAPIView, UpdateAPIVie
 from stations.forms import RouteForm
 from stations.models import Route, GasStation
 from stations.serializers import RouteSerializer
-from stations.utils import get_tomtom_api_build_route, get_open_elevation_elevation, get_weatherapi_temperature
+from stations.utils import get_tomtom_api_build_route
 
 
 class IndexListView(TemplateView):
