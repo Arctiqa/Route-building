@@ -1,18 +1,33 @@
 from django.utils import timezone
 from django.db import models
 from django.conf import settings
+from django.core.validators import MinValueValidator
 
 
 class Route(models.Model):
-    name = models.CharField(max_length=200, null=True, blank=True, verbose_name='маршрут')
+    name = models.CharField(
+        max_length=200, null=True, blank=True, verbose_name='Имя маршрута'
+    )
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='пользователь'
     )
-    start_point = models.CharField(max_length=255, verbose_name='координаты отправки')
-    end_point = models.CharField(max_length=255, verbose_name='координаты прибытия')
-    height = models.FloatField(verbose_name='высота от земли(метры)', null=True, blank=True)
-    weight = models.FloatField(verbose_name='вес авто(тонны)', null=True, blank=True)
-    axel_load = models.FloatField(verbose_name='нагрузка на ось(тонны)', null=True, blank=True)
+    start_point = models.CharField(max_length=255, verbose_name='Координаты отправки')
+    end_point = models.CharField(max_length=255, verbose_name='Координаты прибытия')
+    height = models.FloatField(
+        verbose_name='Высота от земли (метры)',
+        null=True, blank=True,
+        validators=[MinValueValidator(0)],
+    )
+    weight = models.FloatField(
+        verbose_name='Вес авто (тонны)',
+        null=True, blank=True,
+        validators=[MinValueValidator(0)],
+    )
+    axel_load = models.FloatField(
+        verbose_name='Нагрузка на ось (тонны)',
+        null=True, blank=True,
+        validators=[MinValueValidator(0)],
+    )
     date = models.DateTimeField(default=timezone.now, verbose_name='дата создания')
 
     class Meta:

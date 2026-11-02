@@ -1,16 +1,60 @@
 {% extends 'stations/base.html' %}
 {% load static %}
 
+{% block title %}{% if object %}Редактирование маршрута{% else %}Новый маршрут{% endif %}{% endblock %}
+
 {% block content %}
 
-<div class="row">
-    <div class="col-md-6">
-        <h1>Задать маршрут</h1>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-success mb-3">Задать маршрут</button>
-        </form>
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-7">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white border-0 pt-4 pb-0">
+                <h1 class="h4 mb-0">
+                    <i class="bi bi-signpost-split me-2 text-primary"></i>
+                    {% if object %}Редактирование маршрута{% else %}Задать маршрут{% endif %}
+                </h1>
+                <p class="text-muted small mb-0 mt-1">
+                    Координаты вводите в формате <code>55.552137 49.487282</code> (через пробел).
+                </p>
+            </div>
+            <div class="card-body">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+                    {% endif %}
+
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label fw-semibold">
+                                {{ field.label }}
+                                {% if field.field.required %}
+                                    <span class="text-danger">*</span>
+                                {% elif field.name != 'name' %}
+                                 <span class="text-muted fw-normal small">(необязательно)</span>
+                                {% endif %}
+                            </label>
+                            {{ field }}
+                            {% if field.help_text %}
+                                <div class="form-text">{{ field.help_text|safe }}</div>
+                            {% endif %}
+                            {% for error in field.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+
+                    <div class="d-flex gap-2 mt-4">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-check2-circle me-1"></i>
+                            {% if object %}Сохранить{% else %}Построить маршрут{% endif %}
+                        </button>
+                        <a href="{% url 'stations:route-list' %}" class="btn btn-outline-secondary">Отмена</a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 

@@ -1,12 +1,21 @@
 {% extends 'stations/base.html' %}
-{% load static %}
+
+{% block title %}Пароль отправлен{% endblock %}
+
 {% block content %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
-
-<div class="row">
-    <div class="col-12">
-        Новый пароль сгенерирован и отправлен на вашу почту.
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6 text-center">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-5">
+                <i class="bi bi-envelope-check display-1 text-success"></i>
+                <h1 class="h4 mt-3">Новый пароль отправлен</h1>
+                <p class="text-muted">Вам отправлен новый пароль на вашу почту.</p>
+                <a href="{% url 'users:login' %}" class="btn btn-primary mt-2">
+                    <i class="bi bi-box-arrow-in-right me-1"></i>Войти
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 

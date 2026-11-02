@@ -1,44 +1,51 @@
 {% extends 'stations/base.html' %}
 {% load static %}
+
+{% block title %}Профиль{% endblock %}
+
 {% block content %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+<h1 class="h3 mb-4"><i class="bi bi-person-gear me-2 text-primary"></i>Профиль</h1>
 
-<div class="row">
-    <div class="col-12">
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger small">{{ form.non_field_errors }}</div>
+                    {% endif %}
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold d-block">
+                                {{ field.label }}{% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+                                {{ field }}
+                            </label>
+                            {% for error in field.errors %}
+                                <div class="invalid-feedback d-block">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
 
-        <form method="post" action="" class="form-floating" enctype="multipart/form-data">
-            <div class="row">
-                <div class="col-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                Редактирование профиля
-                            </h3>
-                        </div>
-                        <div class="card-body">
-                            {% csrf_token %}
-                            {{ form.as_p }}
-                            <button type="submit" class="btn btn-lg btn-block btn-outline-primary">
-                                Сохранить
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                Аватар
-                            </h3>
-                        </div>
-                        <div class="card-body">
-                            <img class="card-img-top scaled-image" src="{{ user.avatar.url }}" alt="{{ user.avatar }}">
-                        </div>
-                    </div>
-                </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check2-circle me-1"></i>Сохранить
+                    </button>
+                </form>
             </div>
-        </form>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4 text-center">
+                <h2 class="h6 text-muted mb-3">Аватар</h2>
+                <img src="{{ user.avatar.url }}" alt="{{ user.username }}"
+                     class="rounded-circle avatar-preview mb-3">
+                <div class="text-muted small">{{ user.email }}</div>
+            </div>
+        </div>
     </div>
 </div>
 
