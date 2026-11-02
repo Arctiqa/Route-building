@@ -1,13 +1,13 @@
 from django.utils import timezone
-
 from django.db import models
-
-from config import settings
+from django.conf import settings
 
 
 class Route(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True, verbose_name='маршрут')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='пользователь')
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='пользователь'
+    )
     start_point = models.CharField(max_length=255, verbose_name='координаты отправки')
     end_point = models.CharField(max_length=255, verbose_name='координаты прибытия')
     height = models.FloatField(verbose_name='высота от земли(метры)', null=True, blank=True)
@@ -18,6 +18,7 @@ class Route(models.Model):
     class Meta:
         verbose_name = 'маршрут'
         verbose_name_plural = 'маршруты'
+        ordering = ['-date']
 
 
 class GasStation(models.Model):
@@ -30,8 +31,15 @@ class GasStation(models.Model):
     diesel_price = models.CharField(max_length=50, verbose_name='Цена ДТ', null=True, blank=True)
     taneko_diesel_price = models.CharField(max_length=50, verbose_name='Цена ДТ ТАНЕКО', null=True, blank=True)
     last_updated = models.DateTimeField(auto_now=True, verbose_name='Дата последнего обновления')
-    elevation = models.CharField(max_length=10, default=' ', verbose_name='высота над уровнем моря')
+    elevation = models.CharField(
+        max_length=10, null=True, blank=True, verbose_name='высота над уровнем моря'
+    )
 
     class Meta:
         verbose_name = 'АЗС'
         verbose_name_plural = 'АЗС'
+        constraints = [
+            models.UniqueConstraint(
+                fields=['latitude', 'longitude'], name='unique_station_coords'
+            )
+        ]

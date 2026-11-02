@@ -5,16 +5,16 @@ from stations.utils import get_open_elevation_elevation
 
 
 class Command(BaseCommand):
-    """Команда заполняет значения высоты над уровнем моря для заправочных станций"""
+    """Команда заполняет значения высоты над уровнем моря для заправок."""
 
     def handle(self, *args, **options):
         stations = GasStation.objects.all()
 
         for station in stations:
-            if station.elevation == ' ':
+            if not station.elevation or station.elevation == ' ':
                 try:
                     elevation = get_open_elevation_elevation(station.latitude, station.longitude)
                     station.elevation = elevation
-                    station.save()
+                    station.save(update_fields=['elevation'])
                 except Exception as e:
                     print(station.latitude, station.longitude, e)

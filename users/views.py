@@ -11,13 +11,13 @@ from django.views.generic import CreateView, UpdateView, TemplateView
 
 from users.forms import UserRegisterForm, UserProfileForm, ResetPasswordForm
 from users.models import User
-from config import settings
+from django.conf import settings
 
 
 class RegisterView(CreateView):
     form_class = UserRegisterForm
     template_name = 'users/register.html'
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('users:login')
 
     def form_valid(self, form):
         user = form.save()
@@ -25,9 +25,9 @@ class RegisterView(CreateView):
         user.token = token
         user.is_active = False
         user.save()
-        host = self.request.get_host()  # 127.0.0.1:8000
+        host = self.request.get_host()
         url = f'http://{host}/users/verify/{token}'
-        message = f'Для подтверждения верификации почты необходимо перейти по ссылке: {url}'
+        message = f'Для подтверждения верификации почты перейдите по ссылке: {url}'
         send_mail('Верификация почты', message, settings.EMAIL_HOST_USER, [user.email])
         return super().form_valid(form)
 
@@ -49,10 +49,9 @@ def verify(request, token):
 
 
 class ResetPasswordView(PasswordResetView):
-
     form_class = ResetPasswordForm
     template_name = 'users/reset_password.html'
-    email_template_name = 'users/login.html'
+    email_template_name = 'users/reset_password.html'  # FIX: был login.html (неверный шаблон)
 
     def get_success_url(self):
         return reverse_lazy('users:new_pass_generate')
@@ -62,18 +61,20 @@ class ResetPasswordView(PasswordResetView):
         user = User.objects.get(email=email)
 
         alphabet = string.ascii_letters + string.digits
-        password = "".join(secrets.choice(alphabet) for i in range(10))
+        password = ''.join(secrets.choice(alphabet) for _ in range(10))
         user.password = make_password(password)
         user.save()
-        message = f"Ваш новый пароль:\n{password}"
+
         send_mail(
-            "Смена пароля",
-            message=message,
+            'Смена пароля',
+            message=f'Ваш новый пароль:\n{password}',
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[user.email],
             fail_silently=False,
         )
-        return super().form_valid(form)
+
+        from django.http import HttpResponseRedirect
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class NewPassGenerateView(TemplateView):

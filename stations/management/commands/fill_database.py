@@ -35,13 +35,13 @@ class Command(BaseCommand):
 
                 gas_station = GasStation.objects.get(latitude=str(row['Координаты GPS (широта)']),
                                                      longitude=str(row['Координаты GPS (долгота)']))
-                gas_station.region = row['Регион'],
-                gas_station.number = row['Номер АЗС'],
+                gas_station.region = row['Регион']
+                gas_station.number = row['Номер АЗС']
                 gas_station.related_service = ((row['Объекты сопутствующего сервиса'])
-                                               if not pd.isnull(row['Объекты сопутствующего сервиса']) else ' ',)
+                                               if not pd.isnull(row['Объекты сопутствующего сервиса']) else ' ')
                 gas_station.additional_service = ((row['Дополнительные услуги'])
-                                                  if not pd.isnull(row['Дополнительные услуги']) else ' ',)
-                gas_station.diesel_price = (row['ДТ']) if not pd.isnull(row['ДТ']) else ' ',
-                gas_station.taneko_diesel_price = (row['ДТ ТАНЕКО']) if not pd.isnull(row['ДТ ТАНЕКО']) else ' ',
-                gas_station.last_updated = timezone.now
+                                                  if not pd.isnull(row['Дополнительные услуги']) else ' ')
+                gas_station.diesel_price = (row['ДТ']) if not pd.isnull(row['ДТ']) else ' '
+                gas_station.taneko_diesel_price = (row['ДТ ТАНЕКО']) if not pd.isnull(row['ДТ ТАНЕКО']) else ' '
+                gas_station.last_updated = timezone.now()
                 gas_station.save()
